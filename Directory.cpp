@@ -18,8 +18,12 @@ return name;
 }
 void Directory::echo(string content, string filename){
     File * file = searchFile(filename);
-    file->setContent(content);
-    return;
+    if(file == nullptr){
+        makeFile(filename);
+        file->setContent(content);
+    } else {
+        file->setContent(content);
+    }
 }
 void Directory::ls(){
     //Loop though the current directory subfolders and list them
@@ -32,7 +36,7 @@ void Directory::ls(){
     cout << endl;
     return;
 }
-Directory* Directory::searchDir(string s){
+Directory* Directory::searchDir(string s) const{
     for(auto& i : subFolders){
         if(i->getName() == s){
             return i;
@@ -40,7 +44,7 @@ Directory* Directory::searchDir(string s){
     }
     return nullptr;
 }
-File* Directory::searchFile(string s){
+File* Directory::searchFile(string s) const{
     for(auto& i : getFiles()){
         if(i->getName() == s){
             return i;
@@ -50,11 +54,9 @@ File* Directory::searchFile(string s){
 }
 void Directory::remove(Directory * s){
     if(s != nullptr){
-        subFolders.remove(s);
-        return;
+        delete s;
     } else {
         cout << "The directory is not exits!"<< endl;
-        return;
     }
 }
 bool Directory::validFileFormat(string s){
