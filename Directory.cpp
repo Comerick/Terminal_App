@@ -59,16 +59,35 @@ void Directory::remove(Directory * s){
         cout << "The directory is not exits!"<< endl;
     }
 }
+<<<<<<< HEAD
 File * Directory::makeFile(string s){
     //push a new file to the files list
     File * f = new File(s);
     files.push_back(f);
 return f;
+=======
+bool Directory::validFileFormat(string s){
+    vector <string> validFormats= {"json","xml"};
+    s = s.erase(0,s.find('.')+1);
+    for(string i : validFormats){
+        if(i == s){
+            return true;
+        }
+    }
+    return false;
+}
+void Directory::makeFile(string s){
+    if(validFileFormat(s)){
+        //push a new file to the files list
+        files.push_back(new File(s));
+    } else {
+        cout << "Invalid file format!"<<endl;
+    }
+>>>>>>> a7b4b7c6580f1fc3d4ad5651a5089d7f5d89fcb0
 }
 void Directory::makefolder(string s){
     //push a new folder and set the parent to the function caller 
 subFolders.push_back(new Directory(s,this));
-return;
 }
 list<Directory *> Directory::getSubFolders() const{
 return subFolders;
@@ -79,3 +98,7 @@ return files;
 Directory *Directory::getParent() const{
 return parent;
 }
+void Directory::setParent(Directory* setParent){
+parent = setParent;
+}
+
